@@ -23,7 +23,7 @@ export class OpenAiService {
     const body = {
       model: 'text-davinci-003',
       prompt: prompt,
-      max_tokens: 2000,
+      max_tokens: 3000,
       temperature: 0.7,
       top_p: 1,
     };
@@ -33,7 +33,7 @@ export class OpenAiService {
       const result = response.data.choices[0].text;
       // trim the result to the after 1.
       const index = result.indexOf('1.');
-      return result.trimStart().substring(index);
+      return {result:result.trimStart().substring(index)};
       console.log(response.data.choices[0].text);
     } catch (err) {
       this.logger.error(err);
@@ -42,7 +42,7 @@ export class OpenAiService {
   }
   private async formatMessage(dto: OpenAiDto): Promise<string> {
     const { CompanyName, CompanySize, RegulationName, sectorName } = dto;
-    let result = `تصرف وكأنك نظام لأنشاء لوائح حوكمة بالنظام السعودي ,ابحث عن لوائح حوكمة الشركات السعودية من خلال البحث عن لوائح حوكمة الشركة ${CompanySize} واختيار البحث عن المادة التالية وهي ${RegulationName} استخرج منها لوائح للشركة اخرى كبيرة بقطاع ${sectorName} اذكر اللوائح فقط من غير تفصيل ومن غير ذكر اسم ${RegulationName}`;
+    let result = `تصرف وكأنك نظام يقوم بأنشاء لوائح الحوكمة للشركات السعودية, اكتبي لوائح للمادة ${RegulationName} للشركة ${CompanyName} بقطاع ${sectorName}من خلال البحث عن لوائح شركة  ${CompanySize} وإعادة صياغتها بشكل نقاط من غير تكرار لوائح التي تتعلق بالمادة ${RegulationName}  بدون ذكر تفاصيل وبدون ذكر ${CompanySize} مع الاخذ بالحسبان ${dto.moreDetails} بصياغة اللوائح`;
     if (dto.moreDetails) {
       result += `مع الاخذ بالحسبان التفاصيل التالية  ${dto.moreDetails}}`;
     }
