@@ -42,9 +42,9 @@ export class OpenAiService {
   }
   private async formatMessage(dto: OpenAiDto): Promise<string> {
     const { CompanyName, CompanySize, RegulationName, sectorName } = dto;
-    let result = `تصرف وكأنك نظام يقوم بأنشاء لوائح الحوكمة للشركات السعودية, اكتبي لوائح للمادة ${RegulationName} للشركة ${CompanyName} بقطاع ${sectorName}من خلال البحث عن لوائح شركة  ${CompanySize} وإعادة صياغتها بشكل نقاط من غير تكرار لوائح التي تتعلق بالمادة ${RegulationName}  بدون ذكر تفاصيل وبدون ذكر ${CompanySize} مع الاخذ بالحسبان ${dto.moreDetails} بصياغة اللوائح`;
+    let result = `تصرف وكأنك نظام يقوم بأنشاء لوائح الحوكمة للشركات السعودية, اكتبي لوائح للمادة ${RegulationName} للشركة ${CompanyName} بقطاع ${sectorName}من خلال البحث عن لوائح شركة  ${CompanySize} وإعادة صياغتها بشكل نقاط من غير تكرار لوائح التي تتعلق بالمادة ${RegulationName}  بدون ذكر تفاصيل وبدون ذكر ${CompanySize} `;
     if (dto.moreDetails) {
-      result += `مع الاخذ بالحسبان التفاصيل التالية  ${dto.moreDetails}}`;
+      result += `مع الاخذ بالحسبان ${dto.moreDetails} بصياغة اللوائح`;
     }
     return result;
   }
